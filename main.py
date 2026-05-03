@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from httpx import AsyncClient
 from api.DiscworldClient import DiscworldClient
 from views.person_list import render_expanded_person_list
@@ -10,6 +10,10 @@ app = FastAPI()
 
 http_client = AsyncClient(follow_redirects=True) # TODO: close on shutdown
 api = DiscworldClient(http_client, base_url="https://discworld.acdh-dev.oeaw.ac.at/")
+
+@app.get("/")
+def root():
+    return RedirectResponse(url="/persons")
 
 @app.get("/persons/", response_class=HTMLResponse)
 async def list_persons(request: Request):
