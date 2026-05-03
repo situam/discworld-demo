@@ -5,11 +5,18 @@ from api.DiscworldClient import DiscworldClient
 from views.person_list import render_expanded_person_list
 from views.person_detail import render_expanded_person_view
 from models.discworld import ApiSampleProjectPersonListParametersQuery
+from contextlib import asynccontextmanager
 
-app = FastAPI()
-
-http_client = AsyncClient(follow_redirects=True) # TODO: close on shutdown
+http_client = AsyncClient(follow_redirects=True)
 api = DiscworldClient(http_client, base_url="https://discworld.acdh-dev.oeaw.ac.at/")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    yield
+    # cleanup on shutdown
+    await http_client.aclose()
+
+app = FastAPI(lifespan=lifespan)
 
 @app.get("/")
 def root():
