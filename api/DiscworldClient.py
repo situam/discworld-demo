@@ -3,7 +3,8 @@ from httpx import AsyncClient
 from utils.get_model import get_model
 from models.discworld import (
     ApiSampleProjectPersonListParametersQuery,
-    PaginatedPersonlistModelList
+    PaginatedPersonlistModelList,
+    PersondetailModel,
 )
 
 class DiscworldClient:
@@ -17,4 +18,11 @@ class DiscworldClient:
             url=self.base_url + "/api/sample_project.person/",
             model=PaginatedPersonlistModelList,
             params=params
+        )
+    
+    async def get_person_detail(self, url: str):
+        return await get_model(
+            http_client=self.http_client,
+            url=url,
+            model=PersondetailModel
         )
