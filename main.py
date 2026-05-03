@@ -1,11 +1,20 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
+from httpx import AsyncClient
+from api.DiscworldClient import DiscworldClient
 
 app = FastAPI()
 
+http_client = AsyncClient(follow_redirects=True) # TODO: close on shutdown
+api = DiscworldClient(http_client, base_url="https://discworld.acdh-dev.oeaw.ac.at/")
+
 @app.get("/persons/", response_class=HTMLResponse)
 async def list_persons():
-    return "<pre>list persons</pre>"
+    person_list = await api.get_person_list()
+    if person_list is None:
+        return HTMLResponse(status_code=404)
+    
+    return f"<pre>{person_list.model_dump_json()}</pre>"
 
 @app.get("/persons/{person_id}", response_class=HTMLResponse)
 async def get_person(person_id: int):
