@@ -1,0 +1,3241 @@
+openapi: 3.0.3
+info:
+  title: ''
+  version: 0.0.0
+paths:
+  /api/dumpdata:
+    get:
+      operationId: api_dumpdata_retrieve
+      description: |-
+        provide an API endpoint that outputs the datadump of an APIS installation
+
+        this is a bit of a hack, becaus we first use the Django JSON serializer to
+        serialize the data using natural keys, then we use json.loads to so we can
+        output it as an API reponse.
+        so basically: serialize -> deserialize -> serialize
+      parameters:
+      - in: query
+        name: app_labels
+        schema:
+          type: array
+          items:
+            type: string
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/entities/:
+    get:
+      operationId: api_entities_list
+      parameters:
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MinimalEntity'
+          description: ''
+  /api/entity/{id}/:
+    get:
+      operationId: api_entity_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /swagger/schema/:
+    get:
+      operationId: swagger_schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - ckb
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - ht
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - ug
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - swagger
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/sample_project.group/:
+    get:
+      operationId: api_sample_project.group_list
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: query
+        name: label
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - Group
+      - E74_Group
+      - E74_Group
+      - VersionMixin
+      - VersionMixin
+      - AbstractEntity
+      - AbstractEntity
+      - RootObject
+      - RootObject
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedGrouplistModelList'
+          description: ''
+  /api/sample_project.group/{id}/:
+    get:
+      operationId: api_sample_project.group_retrieve
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this group.
+        required: true
+      tags:
+      - Group
+      - E74_Group
+      - E74_Group
+      - VersionMixin
+      - VersionMixin
+      - AbstractEntity
+      - AbstractEntity
+      - RootObject
+      - RootObject
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupdetailModel'
+          description: ''
+  /api/sample_project.iscousinof/:
+    get:
+      operationId: api_sample_project.iscousinof_list
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: obj_search
+        schema:
+          type: string
+        description: Searches in subclasses of RootObject
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: subj_search
+        schema:
+          type: string
+        description: Searches in subclasses of RootObject
+      tags:
+      - IsCousinOf
+      - Relation
+      - Relation
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedIsCousinOflistModelList'
+          description: ''
+  /api/sample_project.iscousinof/{id}/:
+    get:
+      operationId: api_sample_project.iscousinof_retrieve
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this is cousin of.
+        required: true
+      tags:
+      - IsCousinOf
+      - Relation
+      - Relation
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IsCousinOfdetailModel'
+          description: ''
+  /api/sample_project.isparentof/:
+    get:
+      operationId: api_sample_project.isparentof_list
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: obj_search
+        schema:
+          type: string
+        description: Searches in subclasses of RootObject
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: subj_search
+        schema:
+          type: string
+        description: Searches in subclasses of RootObject
+      tags:
+      - IsParentOf
+      - Relation
+      - Relation
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedIsParentOflistModelList'
+          description: ''
+  /api/sample_project.isparentof/{id}/:
+    get:
+      operationId: api_sample_project.isparentof_retrieve
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this is parent of.
+        required: true
+      tags:
+      - IsParentOf
+      - Relation
+      - Relation
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IsParentOfdetailModel'
+          description: ''
+  /api/sample_project.ispartof/:
+    get:
+      operationId: api_sample_project.ispartof_list
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: obj_search
+        schema:
+          type: string
+        description: Searches in subclasses of RootObject
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: subj_search
+        schema:
+          type: string
+        description: Searches in subclasses of RootObject
+      tags:
+      - IsPartOf
+      - Relation
+      - Relation
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedIsPartOflistModelList'
+          description: ''
+  /api/sample_project.ispartof/{id}/:
+    get:
+      operationId: api_sample_project.ispartof_retrieve
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this is part of.
+        required: true
+      tags:
+      - IsPartOf
+      - Relation
+      - Relation
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IsPartOfdetailModel'
+          description: ''
+  /api/sample_project.issiblingof/:
+    get:
+      operationId: api_sample_project.issiblingof_list
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: obj_search
+        schema:
+          type: string
+        description: Searches in subclasses of RootObject
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: subj_search
+        schema:
+          type: string
+        description: Searches in subclasses of RootObject
+      tags:
+      - IsSiblingOf
+      - Relation
+      - Relation
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedIsSiblingOflistModelList'
+          description: ''
+  /api/sample_project.issiblingof/{id}/:
+    get:
+      operationId: api_sample_project.issiblingof_retrieve
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this is sibling of.
+        required: true
+      tags:
+      - IsSiblingOf
+      - Relation
+      - Relation
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IsSiblingOfdetailModel'
+          description: ''
+  /api/sample_project.livesin/:
+    get:
+      operationId: api_sample_project.livesin_list
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: obj_search
+        schema:
+          type: string
+        description: Searches in subclasses of RootObject
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: subj_search
+        schema:
+          type: string
+        description: Searches in subclasses of RootObject
+      tags:
+      - LivesIn
+      - Relation
+      - Relation
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLivesInlistModelList'
+          description: ''
+  /api/sample_project.livesin/{id}/:
+    get:
+      operationId: api_sample_project.livesin_retrieve
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this lives in.
+        required: true
+      tags:
+      - LivesIn
+      - Relation
+      - Relation
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LivesIndetailModel'
+          description: ''
+  /api/sample_project.person/:
+    get:
+      operationId: api_sample_project.person_list
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: query
+        name: date_of_birth
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: date_of_death
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: forename
+        schema:
+          type: string
+      - in: query
+        name: gender
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: profession
+        schema:
+          type: array
+          items:
+            type: integer
+        explode: true
+        style: form
+      - in: query
+        name: surname
+        schema:
+          type: string
+      tags:
+      - Person
+      - E21_Person
+      - E21_Person
+      - VersionMixin
+      - VersionMixin
+      - AbstractEntity
+      - AbstractEntity
+      - RootObject
+      - RootObject
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPersonlistModelList'
+          description: ''
+  /api/sample_project.person/{id}/:
+    get:
+      operationId: api_sample_project.person_retrieve
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this person.
+        required: true
+      tags:
+      - Person
+      - E21_Person
+      - E21_Person
+      - VersionMixin
+      - VersionMixin
+      - AbstractEntity
+      - AbstractEntity
+      - RootObject
+      - RootObject
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersondetailModel'
+          description: ''
+  /api/sample_project.place/:
+    get:
+      operationId: api_sample_project.place_list
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: query
+        name: feature_code
+        schema:
+          type: string
+      - in: query
+        name: label
+        schema:
+          type: string
+      - in: query
+        name: latitude
+        schema:
+          type: number
+          format: float
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: longitude
+        schema:
+          type: number
+          format: float
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - Place
+      - E53_Place
+      - E53_Place
+      - VersionMixin
+      - VersionMixin
+      - AbstractEntity
+      - AbstractEntity
+      - RootObject
+      - RootObject
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPlacelistModelList'
+          description: ''
+  /api/sample_project.place/{id}/:
+    get:
+      operationId: api_sample_project.place_retrieve
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this place.
+        required: true
+      tags:
+      - Place
+      - E53_Place
+      - E53_Place
+      - VersionMixin
+      - VersionMixin
+      - AbstractEntity
+      - AbstractEntity
+      - RootObject
+      - RootObject
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlacedetailModel'
+          description: ''
+  /api/sample_project.profession/:
+    get:
+      operationId: api_sample_project.profession_list
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: name
+        schema:
+          type: string
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - Profession
+      - VersionMixin
+      - VersionMixin
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedProfessionlistModelList'
+          description: ''
+  /api/sample_project.profession/{id}/:
+    get:
+      operationId: api_sample_project.profession_retrieve
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this profession.
+        required: true
+      tags:
+      - Profession
+      - VersionMixin
+      - VersionMixin
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfessiondetailModel'
+          description: ''
+  /api/sample_project.versiongroup/:
+    get:
+      operationId: api_sample_project.versiongroup_list
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: query
+        name: history_change_reason
+        schema:
+          type: string
+      - in: query
+        name: history_date
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: history_type
+        schema:
+          type: string
+          enum:
+          - +
+          - '-'
+          - '~'
+        description: |-
+          * `+` - Created
+          * `~` - Changed
+          * `-` - Deleted
+      - in: query
+        name: history_user
+        schema:
+          type: integer
+      - in: query
+        name: id
+        schema:
+          type: integer
+      - in: query
+        name: label
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - VersionGroup
+      - HistoricalChanges
+      - APISHistoryTableBase
+      - APISHistoryTableBase
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedVersionGrouplistModelList'
+          description: ''
+  /api/sample_project.versiongroup/{id}/:
+    get:
+      operationId: api_sample_project.versiongroup_retrieve
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        required: true
+      tags:
+      - VersionGroup
+      - HistoricalChanges
+      - APISHistoryTableBase
+      - APISHistoryTableBase
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionGroupdetailModel'
+          description: ''
+  /api/sample_project.versionperson/:
+    get:
+      operationId: api_sample_project.versionperson_list
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: query
+        name: date_of_birth
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: date_of_death
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: forename
+        schema:
+          type: string
+      - in: query
+        name: gender
+        schema:
+          type: string
+      - in: query
+        name: history_change_reason
+        schema:
+          type: string
+      - in: query
+        name: history_date
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: history_type
+        schema:
+          type: string
+          enum:
+          - +
+          - '-'
+          - '~'
+        description: |-
+          * `+` - Created
+          * `~` - Changed
+          * `-` - Deleted
+      - in: query
+        name: history_user
+        schema:
+          type: integer
+      - in: query
+        name: id
+        schema:
+          type: integer
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: surname
+        schema:
+          type: string
+      tags:
+      - VersionPerson
+      - HistoricalChanges
+      - APISHistoryTableBase
+      - APISHistoryTableBase
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedVersionPersonlistModelList'
+          description: ''
+  /api/sample_project.versionperson/{id}/:
+    get:
+      operationId: api_sample_project.versionperson_retrieve
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        required: true
+      tags:
+      - VersionPerson
+      - HistoricalChanges
+      - APISHistoryTableBase
+      - APISHistoryTableBase
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionPersondetailModel'
+          description: ''
+  /api/sample_project.versionplace/:
+    get:
+      operationId: api_sample_project.versionplace_list
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: query
+        name: feature_code
+        schema:
+          type: string
+      - in: query
+        name: history_change_reason
+        schema:
+          type: string
+      - in: query
+        name: history_date
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: history_type
+        schema:
+          type: string
+          enum:
+          - +
+          - '-'
+          - '~'
+        description: |-
+          * `+` - Created
+          * `~` - Changed
+          * `-` - Deleted
+      - in: query
+        name: history_user
+        schema:
+          type: integer
+      - in: query
+        name: id
+        schema:
+          type: integer
+      - in: query
+        name: label
+        schema:
+          type: string
+      - in: query
+        name: latitude
+        schema:
+          type: number
+          format: float
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: longitude
+        schema:
+          type: number
+          format: float
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - VersionPlace
+      - HistoricalChanges
+      - APISHistoryTableBase
+      - APISHistoryTableBase
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedVersionPlacelistModelList'
+          description: ''
+  /api/sample_project.versionplace/{id}/:
+    get:
+      operationId: api_sample_project.versionplace_retrieve
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        required: true
+      tags:
+      - VersionPlace
+      - HistoricalChanges
+      - APISHistoryTableBase
+      - APISHistoryTableBase
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionPlacedetailModel'
+          description: ''
+  /api/sample_project.versionprofession/:
+    get:
+      operationId: api_sample_project.versionprofession_list
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: query
+        name: history_change_reason
+        schema:
+          type: string
+      - in: query
+        name: history_date
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: history_type
+        schema:
+          type: string
+          enum:
+          - +
+          - '-'
+          - '~'
+        description: |-
+          * `+` - Created
+          * `~` - Changed
+          * `-` - Deleted
+      - in: query
+        name: history_user
+        schema:
+          type: integer
+      - in: query
+        name: id
+        schema:
+          type: integer
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: name
+        schema:
+          type: string
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - VersionProfession
+      - HistoricalChanges
+      - APISHistoryTableBase
+      - APISHistoryTableBase
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedVersionProfessionlistModelList'
+          description: ''
+  /api/sample_project.versionprofession/{id}/:
+    get:
+      operationId: api_sample_project.versionprofession_retrieve
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        required: true
+      tags:
+      - VersionProfession
+      - HistoricalChanges
+      - APISHistoryTableBase
+      - APISHistoryTableBase
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionProfessiondetailModel'
+          description: ''
+  /api/collections.skoscollection/:
+    get:
+      operationId: api_collections.skoscollection_list
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: query
+        name: contributor
+        schema:
+          type: string
+      - in: query
+        name: creator
+        schema:
+          type: string
+      - in: query
+        name: label_lang
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: name
+        schema:
+          type: string
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - SkosCollection
+      - SkosCollection
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSkosCollectionlistModelList'
+          description: ''
+  /api/collections.skoscollection/{id}/:
+    get:
+      operationId: api_collections.skoscollection_retrieve
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this skos collection.
+        required: true
+      tags:
+      - SkosCollection
+      - SkosCollection
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SkosCollectiondetailModel'
+          description: ''
+  /api/collections.skoscollectioncontentobject/:
+    get:
+      operationId: api_collections.skoscollectioncontentobject_list
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: query
+        name: collection
+        schema:
+          type: integer
+      - in: query
+        name: content_type
+        schema:
+          type: integer
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: object_id
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - SkosCollectionContentObject
+      - SkosCollectionContentObject
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSkosCollectionContentObjectlistModelList'
+          description: ''
+  /api/collections.skoscollectioncontentobject/{id}/:
+    get:
+      operationId: api_collections.skoscollectioncontentobject_retrieve
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this skos collection content
+          object.
+        required: true
+      tags:
+      - SkosCollectionContentObject
+      - SkosCollectionContentObject
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SkosCollectionContentObjectdetailModel'
+          description: ''
+  /api/apis_metainfo.rootobject/:
+    get:
+      operationId: api_apis_metainfo.rootobject_list
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - RootObject
+      - RootObject
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedRootObjectlistModelList'
+          description: ''
+  /api/apis_metainfo.rootobject/{id}/:
+    get:
+      operationId: api_apis_metainfo.rootobject_retrieve
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this root object.
+        required: true
+      tags:
+      - RootObject
+      - RootObject
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RootObjectdetailModel'
+          description: ''
+  /api/uris.uri/:
+    get:
+      operationId: api_uris.uri_list
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: query
+        name: content_type
+        schema:
+          type: integer
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: object_id
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: uri
+        schema:
+          type: string
+      tags:
+      - Uri
+      - Uri
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUrilistModelList'
+          description: ''
+  /api/uris.uri/{id}/:
+    get:
+      operationId: api_uris.uri_retrieve
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this uri.
+        required: true
+      tags:
+      - Uri
+      - Uri
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UridetailModel'
+          description: ''
+  /api/relations.relation/:
+    get:
+      operationId: api_relations.relation_list
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: obj_search
+        schema:
+          type: string
+        description: Searches in subclasses of RootObject
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: subj_search
+        schema:
+          type: string
+        description: Searches in subclasses of RootObject
+      tags:
+      - Relation
+      - Relation
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedRelationlistModelList'
+          description: ''
+  /api/relations.relation/{id}/:
+    get:
+      operationId: api_relations.relation_retrieve
+      description: |-
+        API ViewSet for a generic model.
+        The queryset is overridden by the first match from
+        the `first_member_match` helper.
+        The serializer class is overridden by the first match from
+        the `first_member_match` helper.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this relation.
+        required: true
+      tags:
+      - Relation
+      - Relation
+      - GenericModel
+      - GenericModel
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RelationdetailModel'
+          description: ''
+components:
+  schemas:
+    GroupdetailModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        label:
+          type: string
+          maxLength: 4096
+      required:
+      - url
+    GrouplistModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        label:
+          type: string
+          maxLength: 4096
+      required:
+      - url
+    HistoryTypeEnum:
+      enum:
+      - +
+      - '~'
+      - '-'
+      type: string
+      description: |-
+        * `+` - Created
+        * `~` - Changed
+        * `-` - Deleted
+    IsCousinOfdetailModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        subj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+        obj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+      required:
+      - obj
+      - subj
+      - url
+    IsCousinOflistModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        subj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+        obj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+      required:
+      - obj
+      - subj
+      - url
+    IsParentOfdetailModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        subj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+        obj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+      required:
+      - obj
+      - subj
+      - url
+    IsParentOflistModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        subj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+        obj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+      required:
+      - obj
+      - subj
+      - url
+    IsPartOfdetailModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        subj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+        obj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+      required:
+      - obj
+      - subj
+      - url
+    IsPartOflistModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        subj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+        obj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+      required:
+      - obj
+      - subj
+      - url
+    IsSiblingOfdetailModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        subj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+        obj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+      required:
+      - obj
+      - subj
+      - url
+    IsSiblingOflistModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        subj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+        obj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+      required:
+      - obj
+      - subj
+      - url
+    LivesIndetailModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        subj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+        obj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+      required:
+      - obj
+      - subj
+      - url
+    LivesInlistModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        subj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+        obj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+      required:
+      - obj
+      - subj
+      - url
+    MinimalEntity:
+      type: object
+      properties:
+        uri:
+          type: string
+          format: uri
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+      required:
+      - name
+      - uri
+    PaginatedGrouplistModelList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GrouplistModel'
+    PaginatedIsCousinOflistModelList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/IsCousinOflistModel'
+    PaginatedIsParentOflistModelList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/IsParentOflistModel'
+    PaginatedIsPartOflistModelList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/IsPartOflistModel'
+    PaginatedIsSiblingOflistModelList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/IsSiblingOflistModel'
+    PaginatedLivesInlistModelList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/LivesInlistModel'
+    PaginatedPersonlistModelList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersonlistModel'
+    PaginatedPlacelistModelList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlacelistModel'
+    PaginatedProfessionlistModelList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProfessionlistModel'
+    PaginatedRelationlistModelList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelationlistModel'
+    PaginatedRootObjectlistModelList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RootObjectlistModel'
+    PaginatedSkosCollectionContentObjectlistModelList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SkosCollectionContentObjectlistModel'
+    PaginatedSkosCollectionlistModelList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SkosCollectionlistModel'
+    PaginatedUrilistModelList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/UrilistModel'
+    PaginatedVersionGrouplistModelList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/VersionGrouplistModel'
+    PaginatedVersionPersonlistModelList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/VersionPersonlistModel'
+    PaginatedVersionPlacelistModelList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/VersionPlacelistModel'
+    PaginatedVersionProfessionlistModelList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/VersionProfessionlistModel'
+    PersondetailModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        forename:
+          type: string
+          maxLength: 4096
+        surname:
+          type: string
+          maxLength: 4096
+        gender:
+          type: string
+          maxLength: 4096
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+        date_of_death:
+          type: string
+          format: date
+          nullable: true
+        profession:
+          type: array
+          items:
+            type: string
+            format: uri
+      required:
+      - url
+    PersonlistModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        forename:
+          type: string
+          maxLength: 4096
+        surname:
+          type: string
+          maxLength: 4096
+        gender:
+          type: string
+          maxLength: 4096
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+        date_of_death:
+          type: string
+          format: date
+          nullable: true
+        profession:
+          type: array
+          items:
+            type: string
+            format: uri
+      required:
+      - url
+    PlacedetailModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        label:
+          type: string
+          maxLength: 4096
+        latitude:
+          type: number
+          format: double
+          nullable: true
+        longitude:
+          type: number
+          format: double
+          nullable: true
+        feature_code:
+          type: string
+          description: <a href="https://www.geonames.org/export/codes.html" target="_blank">Geonames
+            Feature Code List</a>
+          maxLength: 16
+      required:
+      - url
+    PlacelistModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        label:
+          type: string
+          maxLength: 4096
+        latitude:
+          type: number
+          format: double
+          nullable: true
+        longitude:
+          type: number
+          format: double
+          nullable: true
+        feature_code:
+          type: string
+          description: <a href="https://www.geonames.org/export/codes.html" target="_blank">Geonames
+            Feature Code List</a>
+          maxLength: 16
+      required:
+      - url
+    ProfessiondetailModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        name:
+          type: string
+          maxLength: 1024
+      required:
+      - url
+    ProfessionlistModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        name:
+          type: string
+          maxLength: 1024
+      required:
+      - url
+    RelationdetailModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        subj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+        obj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+      required:
+      - obj
+      - subj
+      - url
+    RelationlistModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        subj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+        obj:
+          allOf:
+          - $ref: '#/components/schemas/SimpleObject'
+          readOnly: true
+      required:
+      - obj
+      - subj
+      - url
+    RootObjectdetailModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+      required:
+      - url
+    RootObjectlistModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+      required:
+      - url
+    SimpleObject:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        label:
+          type: string
+          readOnly: true
+        content_type_key:
+          type: string
+          readOnly: true
+        content_type_name:
+          type: string
+          readOnly: true
+      required:
+      - content_type_key
+      - content_type_name
+      - label
+      - url
+    SkosCollectionContentObjectdetailModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        object_id:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        collection:
+          type: string
+          format: uri
+        content_type:
+          type: string
+          format: uri
+      required:
+      - collection
+      - content_type
+      - object_id
+      - url
+    SkosCollectionContentObjectlistModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        object_id:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        collection:
+          type: string
+          format: uri
+        content_type:
+          type: string
+          format: uri
+      required:
+      - collection
+      - content_type
+      - object_id
+      - url
+    SkosCollectiondetailModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        name:
+          type: string
+          title: Skos:prefLabel
+          description: Collection label or name
+          maxLength: 300
+        label_lang:
+          type: string
+          title: Skos:prefLabel language
+          description: Language of preferred label given above
+          maxLength: 3
+        creator:
+          type: string
+          title: Dc:creator
+          description: Person or organisation that created this collectionIf more
+            than one list all using a semicolon ;
+        contributor:
+          type: string
+          title: Dc:contributor
+          description: Person or organisation that made contributions to the collectionIf
+            more than one list all using a semicolon ;
+      required:
+      - name
+      - url
+    SkosCollectionlistModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        name:
+          type: string
+          title: Skos:prefLabel
+          description: Collection label or name
+          maxLength: 300
+        label_lang:
+          type: string
+          title: Skos:prefLabel language
+          description: Language of preferred label given above
+          maxLength: 3
+        creator:
+          type: string
+          title: Dc:creator
+          description: Person or organisation that created this collectionIf more
+            than one list all using a semicolon ;
+        contributor:
+          type: string
+          title: Dc:contributor
+          description: Person or organisation that made contributions to the collectionIf
+            more than one list all using a semicolon ;
+      required:
+      - name
+      - url
+    UridetailModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        uri:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 255
+        object_id:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+        content_type:
+          type: string
+          format: uri
+          nullable: true
+      required:
+      - url
+    UrilistModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        uri:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 255
+        object_id:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+        content_type:
+          type: string
+          format: uri
+          nullable: true
+      required:
+      - url
+    VersionGroupdetailModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        id:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        label:
+          type: string
+          maxLength: 4096
+        history_date:
+          type: string
+          format: date-time
+        history_change_reason:
+          type: string
+          nullable: true
+          maxLength: 100
+        history_type:
+          $ref: '#/components/schemas/HistoryTypeEnum'
+        rootobject_ptr:
+          type: string
+          format: uri
+          nullable: true
+        history_user:
+          type: string
+          format: uri
+          nullable: true
+      required:
+      - history_date
+      - history_type
+      - url
+    VersionGrouplistModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        id:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        label:
+          type: string
+          maxLength: 4096
+        history_date:
+          type: string
+          format: date-time
+        history_change_reason:
+          type: string
+          nullable: true
+          maxLength: 100
+        history_type:
+          $ref: '#/components/schemas/HistoryTypeEnum'
+        rootobject_ptr:
+          type: string
+          format: uri
+          nullable: true
+        history_user:
+          type: string
+          format: uri
+          nullable: true
+      required:
+      - history_date
+      - history_type
+      - url
+    VersionPersondetailModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        id:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        forename:
+          type: string
+          maxLength: 4096
+        surname:
+          type: string
+          maxLength: 4096
+        gender:
+          type: string
+          maxLength: 4096
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+        date_of_death:
+          type: string
+          format: date
+          nullable: true
+        history_date:
+          type: string
+          format: date-time
+        history_change_reason:
+          type: string
+          nullable: true
+          maxLength: 100
+        history_type:
+          $ref: '#/components/schemas/HistoryTypeEnum'
+        rootobject_ptr:
+          type: string
+          format: uri
+          nullable: true
+        history_user:
+          type: string
+          format: uri
+          nullable: true
+      required:
+      - history_date
+      - history_type
+      - url
+    VersionPersonlistModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        id:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        forename:
+          type: string
+          maxLength: 4096
+        surname:
+          type: string
+          maxLength: 4096
+        gender:
+          type: string
+          maxLength: 4096
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+        date_of_death:
+          type: string
+          format: date
+          nullable: true
+        history_date:
+          type: string
+          format: date-time
+        history_change_reason:
+          type: string
+          nullable: true
+          maxLength: 100
+        history_type:
+          $ref: '#/components/schemas/HistoryTypeEnum'
+        rootobject_ptr:
+          type: string
+          format: uri
+          nullable: true
+        history_user:
+          type: string
+          format: uri
+          nullable: true
+      required:
+      - history_date
+      - history_type
+      - url
+    VersionPlacedetailModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        id:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        label:
+          type: string
+          maxLength: 4096
+        latitude:
+          type: number
+          format: double
+          nullable: true
+        longitude:
+          type: number
+          format: double
+          nullable: true
+        feature_code:
+          type: string
+          description: <a href="https://www.geonames.org/export/codes.html" target="_blank">Geonames
+            Feature Code List</a>
+          maxLength: 16
+        history_date:
+          type: string
+          format: date-time
+        history_change_reason:
+          type: string
+          nullable: true
+          maxLength: 100
+        history_type:
+          $ref: '#/components/schemas/HistoryTypeEnum'
+        rootobject_ptr:
+          type: string
+          format: uri
+          nullable: true
+        history_user:
+          type: string
+          format: uri
+          nullable: true
+      required:
+      - history_date
+      - history_type
+      - url
+    VersionPlacelistModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        id:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        label:
+          type: string
+          maxLength: 4096
+        latitude:
+          type: number
+          format: double
+          nullable: true
+        longitude:
+          type: number
+          format: double
+          nullable: true
+        feature_code:
+          type: string
+          description: <a href="https://www.geonames.org/export/codes.html" target="_blank">Geonames
+            Feature Code List</a>
+          maxLength: 16
+        history_date:
+          type: string
+          format: date-time
+        history_change_reason:
+          type: string
+          nullable: true
+          maxLength: 100
+        history_type:
+          $ref: '#/components/schemas/HistoryTypeEnum'
+        rootobject_ptr:
+          type: string
+          format: uri
+          nullable: true
+        history_user:
+          type: string
+          format: uri
+          nullable: true
+      required:
+      - history_date
+      - history_type
+      - url
+    VersionProfessiondetailModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        id:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        name:
+          type: string
+          maxLength: 1024
+        history_date:
+          type: string
+          format: date-time
+        history_change_reason:
+          type: string
+          nullable: true
+          maxLength: 100
+        history_type:
+          $ref: '#/components/schemas/HistoryTypeEnum'
+        history_user:
+          type: string
+          format: uri
+          nullable: true
+      required:
+      - history_date
+      - history_type
+      - url
+    VersionProfessionlistModel:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        id:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        name:
+          type: string
+          maxLength: 1024
+        history_date:
+          type: string
+          format: date-time
+        history_change_reason:
+          type: string
+          nullable: true
+          maxLength: 100
+        history_type:
+          $ref: '#/components/schemas/HistoryTypeEnum'
+        history_user:
+          type: string
+          format: uri
+          nullable: true
+      required:
+      - history_date
+      - history_type
+      - url
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
