@@ -2,12 +2,18 @@ from models.discworld import (
     PaginatedPersonlistModelList,
     PersonlistModel
 )
+from views.pagination import render_pagination
+from utils.url_to_query_string import url_to_query_string
 
 # TODO: pagination
 
 def render_person_list(
     person_list: PaginatedPersonlistModelList,
 ):  
+    # pagination links: extract just the query string from the prev/next urls 
+    link_to_prev_page = None if person_list.previous is None else url_to_query_string(person_list.previous)
+    link_to_next_page = None if person_list.next is None else url_to_query_string(person_list.next)
+
     return f"""<html>
 <head>
     <title>Persons</title>
@@ -25,6 +31,10 @@ def render_person_list(
             )}
         </tbody>
     </table>
+    {render_pagination(
+        href_prev=link_to_prev_page,
+        href_next=link_to_next_page
+    )}
 </body>
 </html>"""
 

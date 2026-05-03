@@ -8,6 +8,7 @@ async def get_model(
     http_client: httpx.AsyncClient,
     url: str,
     model: Type[T],
+    params: BaseModel | None = None,
 ) -> T | None:
     """
     Fetch a JSON resource and parse into a Pydantic model
@@ -15,10 +16,13 @@ async def get_model(
     returns None if response not 200
     raises ValidationError on invalid response
     """
+
+    query_params = params.model_dump(exclude_none=True) if params is not None else None
     
     res = await http_client.get(
         url,
         headers={"Accept": "application/json"},
+        params=query_params
     )
 
     if res.status_code != 200:
