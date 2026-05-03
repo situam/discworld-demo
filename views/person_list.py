@@ -22,6 +22,7 @@ def render_expanded_person_list(
             )}
         </tbody>
     </table>
+    <hr>
     {render_pagination(
         href_prev=view.link_to_prev_page,
         href_next=view.link_to_next_page
