@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from httpx import AsyncClient
 from api.DiscworldClient import DiscworldClient
+from views.person_list import render_person_list
 
 app = FastAPI()
 
@@ -14,7 +15,7 @@ async def list_persons():
     if person_list is None:
         return HTMLResponse(status_code=404)
     
-    return f"<pre>{person_list.model_dump_json()}</pre>"
+    return render_person_list(person_list)
 
 @app.get("/persons/{person_id}", response_class=HTMLResponse)
 async def get_person(person_id: int):
