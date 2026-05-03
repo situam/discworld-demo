@@ -49,6 +49,8 @@ person_header_row = """<tr>
 </tr>"""
 
 def render_person_row(person: PersonlistModel):
+    href_detail = f"/persons/{person.url}"
+
     return f"""<tr>
     <td>{str(person.surname)}</td>
     <td>{str(person.forename)}</td>
@@ -56,5 +58,5 @@ def render_person_row(person: PersonlistModel):
     <td>{person.date_of_birth or ""}</td>
     <td>{person.date_of_death or ""}</td>
     <td>{person.profession}</td>
-    <td>{person.url}</td>
+    <td><a href='{href_detail}'>{person.url}</a></td>
 </tr>"""
