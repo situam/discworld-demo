@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse
 from httpx import AsyncClient
 from api.DiscworldClient import DiscworldClient
 from views.person_list import render_person_list
-from views.person_detail import render_person_detail
+from views.person_detail import render_expanded_person_view
 from models.discworld import ApiSampleProjectPersonListParametersQuery
 
 app = FastAPI()
@@ -24,8 +24,8 @@ async def list_persons(request: Request):
 
 @app.get("/persons/{url:path}", response_class=HTMLResponse)
 async def get_person(url: str):
-    person = await api.get_person_detail(url)
-    if person is None:
+    view = await api.get_person_detail_expanded(url)
+    if view is None:
         return HTMLResponse(status_code=404)
     
-    return render_person_detail(person)
+    return render_expanded_person_view(view)

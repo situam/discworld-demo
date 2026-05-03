@@ -1,6 +1,7 @@
 from typing import Type, TypeVar
 from pydantic import BaseModel
 import httpx
+import asyncio
 
 T = TypeVar("T", bound=BaseModel)
 
@@ -29,3 +30,14 @@ async def get_model(
         return None
 
     return model.model_validate_json(res.content)
+
+async def get_models(
+    http_client: httpx.AsyncClient,
+    urls: set[str],
+    model: Type[T],
+):
+    results = await asyncio.gather(
+        *(get_model(http_client, url, model) for url in urls)
+    )
+
+    return dict(zip(urls, results))
