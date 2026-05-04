@@ -2,9 +2,8 @@ from models.views import ExpandedPersonListView
 from models.discworld import PersonlistModel, ProfessionlistModel
 from views.pagination import render_pagination
 
-def render_expanded_person_list(
-    view: ExpandedPersonListView
-):  
+
+def render_expanded_person_list(view: ExpandedPersonListView):
     return f"""<html>
 <head>
     <title>Persons</title>
@@ -17,18 +16,22 @@ def render_expanded_person_list(
             {person_header_row}
         </thead>
         <tbody>
-            {"".join(
-                render_person_row(p, view.professions) for p in view.person_list.results
-            )}
+            {
+        "".join(
+            render_person_row(p, view.professions) for p in view.person_list.results
+        )
+    }
         </tbody>
     </table>
     <hr>
-    {render_pagination(
-        href_prev=view.link_to_prev_page,
-        href_next=view.link_to_next_page
-    )}
+    {
+        render_pagination(
+            href_prev=view.link_to_prev_page, href_next=view.link_to_next_page
+        )
+    }
 </body>
 </html>"""
+
 
 person_header_row = """<tr>
     <th>surname</th>
@@ -40,9 +43,9 @@ person_header_row = """<tr>
     <th>url</th>
 </tr>"""
 
+
 def render_person_row(
-    person: PersonlistModel,
-    professions: dict[str, ProfessionlistModel | None]
+    person: PersonlistModel, professions: dict[str, ProfessionlistModel | None]
 ):
     href_detail = f"/persons/{person.url}"
 

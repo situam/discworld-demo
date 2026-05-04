@@ -5,6 +5,7 @@ import asyncio
 
 T = TypeVar("T", bound=BaseModel)
 
+
 async def get_model(
     http_client: httpx.AsyncClient,
     url: str,
@@ -19,17 +20,16 @@ async def get_model(
     """
 
     query_params = params.model_dump(exclude_none=True) if params is not None else None
-    
+
     res = await http_client.get(
-        url,
-        headers={"Accept": "application/json"},
-        params=query_params
+        url, headers={"Accept": "application/json"}, params=query_params
     )
 
     if res.status_code != 200:
         return None
 
     return model.model_validate_json(res.content)
+
 
 async def get_models(
     http_client: httpx.AsyncClient,

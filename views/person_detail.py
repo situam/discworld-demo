@@ -1,9 +1,8 @@
 from models.views import ExpandedPersonView
 from views.dict import render_dict_dl
 
-def render_expanded_person_view(
-    data: ExpandedPersonView
-):
+
+def render_expanded_person_view(data: ExpandedPersonView):
     return f"""
 <html>
     <head>
