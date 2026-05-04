@@ -2,6 +2,8 @@
 
 Provides expanded views of discworld person data from [https://discworld.acdh-dev.oeaw.ac.at/](https://discworld.acdh-dev.oeaw.ac.at/)
 
+A hosted instance is available at https://discworld-demo.onrender.com/
+
 ## Dependencies
 
 - FastAPI
@@ -31,7 +33,7 @@ Open http://localhost:8000 in a web browser and start exploring
 1. Download schema:
 
 ```sh
-wget -O discworld/schema.yaml https://discworld.acdh-dev.oeaw.ac.at/swagger/schema/
+wget -O schemas/discworld.yaml https://discworld.acdh-dev.oeaw.ac.at/swagger/schema/
 ```
 
 2. Generate models
