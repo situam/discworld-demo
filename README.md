@@ -1,8 +1,18 @@
 # Discworld Demo
 
-Provides expanded views of discworld person data from [https://discworld.acdh-dev.oeaw.ac.at/](https://discworld.acdh-dev.oeaw.ac.at/)
+Views of expanded discworld person data from [https://discworld.acdh-dev.oeaw.ac.at/](https://discworld.acdh-dev.oeaw.ac.at/).
 
-A hosted instance is available at https://discworld-demo.onrender.com/
+Endpoints:
+
+- `/persons`: paginated list view
+  - filter by:
+    - surname
+    - forename
+  - expanded: profession
+- `/persons/{person.url}`: detail view
+  - expanded: profession
+
+A hosted instance is available at [https://discworld-demo.onrender.com/](https://discworld-demo.onrender.com/)
 
 ## Dependencies
 
@@ -24,7 +34,7 @@ uv sync
 uv run fastapi dev
 ```
 
-Open http://localhost:8000 in a web browser and start exploring
+Open `http://localhost:8000` in a web browser and start exploring
 
 ---
 
