@@ -1,2 +1,0 @@
-fastapi[standard]==0.136.1
-datamodel-code-generator==0.56.1

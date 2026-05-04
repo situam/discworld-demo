@@ -7,20 +7,22 @@ Provides expanded views of discworld person data from [https://discworld.acdh-de
 - FastAPI
 - datamodel-code-generator
 
-## Local Development
+## Running locally
 
 ### Install dependencies
+
+Using uv:
 ```sh
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+uv sync
 ```
 
-### Start dev server:
+### Start server
 
 ```sh
-fastapi dev
+uv run fastapi dev
 ```
+
+Open http://localhost:8000 in a web browser and start exploring
 
 ---
 
