@@ -32,12 +32,17 @@ async def list_persons(request: Request):
     params = ApiSampleProjectPersonListParametersQuery.model_validate(
         request.query_params
     )
+    # default query params
+    if not params.limit:
+        params.limit = 20
+    if not params.offset:
+        params.offset = 0
 
     view = await api.get_person_list_expanded(params)
     if view is None:
         return HTMLResponse(status_code=404)
 
-    return render_expanded_person_list(view)
+    return render_expanded_person_list(view, params)
 
 
 @app.get("/persons/{url:path}", response_class=HTMLResponse)
