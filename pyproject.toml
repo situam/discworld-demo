@@ -5,6 +5,18 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "datamodel-code-generator==0.56.1",
     "fastapi[standard]==0.136.1",
 ]
+
+[dependency-groups]
+dev = [
+    "datamodel-code-generator==0.56.1",
+]
+
+[tool.datamodel-codegen]
+input = "schemas/discworld.yaml"
+input-file-type = "openapi"
+output = "models/discworld.py"
+output-model-type = "pydantic_v2.BaseModel"
+use-operation-id-as-name = true
+openapi-scopes = ["schemas", "parameters", "paths"]

@@ -37,5 +37,5 @@ wget -O discworld/schema.yaml https://discworld.acdh-dev.oeaw.ac.at/swagger/sche
 2. Generate models
 
 ```sh
-datamodel-codegen --use-operation-id-as-name --input discworld/schema.yaml --input-file-type openapi --openapi-scopes schemas parameters paths --output-model-type pydantic_v2.BaseModel --output models/discworld.py
+uv run datamodel-codegen
 ```
